@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="600dp"
-                android:background="#003344" />
+                android:background="#003333" />
 
 
         </LinearLayout>

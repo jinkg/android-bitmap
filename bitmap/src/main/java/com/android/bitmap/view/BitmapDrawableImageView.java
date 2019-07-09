@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -30,15 +31,15 @@ import com.android.bitmap.drawable.BasicBitmapDrawable;
  * A helpful ImageView replacement that can generally be used in lieu of ImageView.
  * BitmapDrawableImageView has logic to unbind its BasicBitmapDrawable when it is detached from the
  * window.
- *
+ * <p>
  * If you are using this with RecyclerView,
  * or any use-case where {@link android.view.View#onDetachedFromWindow} is
  * not a good signal for unbind,
  * makes sure you {@link #setShouldUnbindOnDetachFromWindow} to false.
  */
-public class BitmapDrawableImageView extends ImageView {
+public class BitmapDrawableImageView extends AppCompatImageView {
     private static final boolean HAS_TRANSIENT_STATE_SUPPORTED =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     private static final boolean TEMPORARY = true;
     private static final boolean PERMANENT = !TEMPORARY;
 
@@ -55,20 +56,21 @@ public class BitmapDrawableImageView extends ImageView {
     }
 
     public BitmapDrawableImageView(final Context context, final AttributeSet attrs,
-            final int defStyle) {
+                                   final int defStyle) {
         super(context, attrs, defStyle);
     }
 
-  public boolean shouldUnbindOnDetachFromWindow() {
-    return mShouldUnbindOnDetachFromWindow;
-  }
+    public boolean shouldUnbindOnDetachFromWindow() {
+        return mShouldUnbindOnDetachFromWindow;
+    }
 
-  public void setShouldUnbindOnDetachFromWindow(boolean shouldUnbindOnDetachFromWindow) {
+    public void setShouldUnbindOnDetachFromWindow(boolean shouldUnbindOnDetachFromWindow) {
         mShouldUnbindOnDetachFromWindow = shouldUnbindOnDetachFromWindow;
     }
 
     /**
      * Get the source drawable for this BitmapDrawableImageView.
+     *
      * @return The source drawable casted to the given type, or null if the type does not match.
      */
     @SuppressWarnings("unchecked") // Cast to type parameter.
@@ -82,6 +84,7 @@ public class BitmapDrawableImageView extends ImageView {
 
     /**
      * Set the given drawable as the source for this BitmapDrawableImageView.
+     *
      * @param drawable The source drawable.
      */
     public <E extends BasicBitmapDrawable> void setTypedDrawable(E drawable) {
@@ -135,7 +138,7 @@ public class BitmapDrawableImageView extends ImageView {
         super.onAttachedToWindow();
         mAttachedToWindow = true;
         if (mDrawable != null && mDrawable.getKey() == null
-              && mDrawable.getPreviousKey() != null && mShouldUnbindOnDetachFromWindow) {
+                && mDrawable.getPreviousKey() != null && mShouldUnbindOnDetachFromWindow) {
             mDrawable.bind(mDrawable.getPreviousKey());
         }
     }
@@ -162,7 +165,7 @@ public class BitmapDrawableImageView extends ImageView {
     public void onRtlPropertiesChanged(int layoutDirection) {
         super.onRtlPropertiesChanged(layoutDirection);
         if (mDrawable != null) {
-          mDrawable.setLayoutDirectionLocal(layoutDirection);
+            mDrawable.setLayoutDirectionLocal(layoutDirection);
         }
     }
 }

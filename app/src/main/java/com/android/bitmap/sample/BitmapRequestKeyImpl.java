@@ -16,6 +16,8 @@
 
 package com.android.bitmap.sample;
 
+import android.support.annotation.NonNull;
+
 import com.android.bitmap.RequestKey;
 
 import java.io.IOException;
@@ -43,7 +45,7 @@ public class BitmapRequestKeyImpl implements RequestKey {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || !(o instanceof BitmapRequestKeyImpl)) {
+        if (!(o instanceof BitmapRequestKeyImpl)) {
             return false;
         }
         final BitmapRequestKeyImpl other = (BitmapRequestKeyImpl) o;
@@ -57,17 +59,15 @@ public class BitmapRequestKeyImpl implements RequestKey {
         return hash;
     }
 
+    @NonNull
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("[");
-        sb.append(mUriString);
-        sb.append("]");
-        return sb.toString();
+        return "[" + mUriString + "]";
     }
 
     @Override
     public Cancelable createFileDescriptorFactoryAsync(final RequestKey key,
-            final Callback callback) {
+                                                       final Callback callback) {
         return null;
     }
 
